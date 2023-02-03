@@ -1,30 +1,37 @@
 <html>
 <head>
-  <title></title>
+  <title> Sudoku</title>
   <script type="text/javascript" src="sudoku.js"></script>
   <script type="text/javascript" src="analytics.js"></script>
   <style type="text/css">
 
-    body { font-family: Calibri, sans-serif; }
+    body { font-family: Calibri, sans-serif;margin: 0px; background-image:url('banner-bg.png') ;background-position: center;background-repeat: no-repeat; }
     #container { text-align: center }
-    table { border-collapse: collapse; font-size: 2em; margin: 0 auto; }
-    colgroup, tbody { border: solid medium; }
-    td { border: solid thin; height: 1.4em; width: 1.4em; text-align: center; padding: 0; }
-    button { margin-top: 15px; font-size: 1.5em; }
-    <!--100 pixel gap between the logo and sudoko solver -->
-    padd{padding-bottom: 100px;}
-    ]
-  </style>
+    table { border-collapse: collapse; font-size: 2em; margin: 0 auto;box-shadow: rgba(184, 184, 201, 0.2) 0px 7px 39px 0px; }
+    tbody{border: skyblue solid;}
+    colgroup, tbody { border:white solid medium; }
+    td {cursor:cell; border:skyblue solid thin; height: 1.4em; width: 1.4em; text-align: center; padding: 0;color: white; }
+    button { margin-top: 15px; font-size: 1.5em; border-radius: 10px;padding-left: 20px;padding-right: 20px;box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; }
+    .padd{font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;background: -webkit-linear-gradient(rgb(173, 169, 169), rgb(46, 48, 46));-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+    #name{padding-top: 30px;font-weight: bold;font-size: 30px;font-family:cursive;cursor: none;display: flex;justify-content: left;margin-left: 10px;}
+    #reg{padding-top: 5px;font-weight: bold;font-size: 30px;font-family:cursive;cursor: none;display: flex;justify-content: left;margin-left: 10px;}
+    .text-bg{background: -webkit-linear-gradient(rgb(230, 76, 76), rgb(102, 249, 114));-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+    button:hover{cursor: pointer; background: -webkit-linear-gradient(rgb(230, 76, 76), rgb(102, 249, 114));-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+ </style>
 </head>
 <body>
   
-    
+ <div id="background">
   <div id="container">
-    <img src="Name - Rishi Raj Singh Registration No - 12014360 (1).jpg" style = "height:100px ; width: 400px; align ="left" "  >
+    <div id="name" class="text-bg">
+      Name - Rishi Raj Singh
+    </div>
+    <div id="reg" class="text-bg">
+      Reg No. - 12014360
+    </div>
+    <h1 class = "padd">Sudoku Solver </h1>
 
-    <h1 class = "padd">Sudoku Solver</h1>
-
-    <table id="sudoku-board">
+    <table id="sudoku-board" >
       
       <!--9*9=81 cells getting created-->
       <colgroup><col><col><col>
@@ -52,6 +59,7 @@
       <button id="clear-button">Clear board</button>
     </div>
   </div>
+ </div>
 </body>
 
 <script type="text/javascript">
@@ -59,7 +67,7 @@
     if(event.target && event.target.nodeName == "TD") {
       var validNum = /[1-9]/;
       var tdEl = event.target;
-      <!--Only allowing 1 to 9 numbers to enter in the cell-->
+      //Only allowing 1 to 9 numbers to enter in the cell
       if (tdEl.innerText.length > 0 && validNum.test(tdEl.innerText[0])) {
         tdEl.innerText = tdEl.innerText[0];
       } else {
@@ -68,25 +76,10 @@
     }
   });
 
-  document.getElementById("solve-button").addEventListener("click", function(event) {
-    var boardString = boardToString();
-    var solution = SudokuSolver.solve(boardString);
-    if (solution) {
-      stringToBoard(solution);
-    } else {
-      alert("Invalid board!");
-    }
-  })
-
   document.getElementById("clear-button").addEventListener("click", clearBoard);
 
-  function clearBoard() {
-    var tds = document.getElementsByTagName("td");
-    for (var i = 0; i < tds.length; i++) {
-      tds[i].innerText = "";
-    }
-  }
-
+//In this function we are checking the existing elements in the suduko and if there is any blank space I am - so that in future we 
+// can add numbers to that place to solve the suduko
   function boardToString() {
     var string = "";
     var validNum = /[1-9]/;
@@ -100,6 +93,25 @@
     }
     return string;
   }
+
+  document.getElementById("solve-button").addEventListener("click", function(event) {
+    var boardString = boardToString();
+    var solution = SudokuSolver.solve(boardString);
+    if (solution) {
+      stringToBoard(solution);
+    } else {
+      alert("Invalid board!");
+    }
+  })
+
+  document.getElementById("clear-button").addEventListener("click", clearBoard);
+
+function clearBoard() {
+  var tds = document.getElementsByTagName("td");
+  for (var i = 0; i < tds.length; i++) {
+    tds[i].innerText = "";
+  }
+}
 
   function stringToBoard(string) {
     var currentCell;
